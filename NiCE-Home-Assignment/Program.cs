@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ExternalTaskService>();
+builder.Services.AddSingleton<MatchUtteranceService>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<UserDetailsValidator>();
 builder.Services.AddEndpointsApiExplorer();
