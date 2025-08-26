@@ -9,12 +9,12 @@ using Xunit;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace NiCE_Home_Assignment.Tests
+namespace NiCE_Home_Assignment.Tests.UnitTests
 {
     public class SuggestClassControllerTest
     {
         [Fact]
-        public async Task ForgotPassword_Utterance_Returns_ForgotPasswordTask()
+        public async Task ResetPassword_Utterance_Returns_ResetPasswordTask()
         {
             IValidator<UserDetails> validator = new UserDetailsValidator();
             var logger = NullLogger<SuggestTaskController>.Instance;
@@ -32,7 +32,7 @@ namespace NiCE_Home_Assignment.Tests
             var model = new UserDetails
             {
 
-                utterance = "I forgot password to my account",
+                utterance = "reset password",
                 userId = "123123",
                 sessionId = "321321",
                 timestamp = DateTime.UtcNow

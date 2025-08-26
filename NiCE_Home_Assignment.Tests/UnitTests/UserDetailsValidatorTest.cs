@@ -4,7 +4,7 @@ using NiCE_Home_Assignment.Models.Domain;
 using NiCE_Home_Assignment.Validation;
 using Xunit;
 
-namespace NiCE_Home_Assignment.Tests
+namespace NiCE_Home_Assignment.Tests.UnitTests
 {
     public class UserDetailsValidatorTest
     {
