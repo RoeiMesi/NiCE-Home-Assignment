@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NiCE_Home_Assignment.Models.Domain;
 
-namespace NiCEtask.API.Controllers
+namespace NiCE_Home_Assignment.API.Controllers
 {
     [Route("suggestTask")]
     [ApiController]
@@ -35,19 +35,19 @@ namespace NiCEtask.API.Controllers
 
             // Now we know that model.utterance is not empty
             var utterance = model.utterance;
-            string task = "NoTaskFound";
-            foreach (var keyValPair in taskDictionary)
+            string task = "NoTaskFound"; // Default task, changes if task found.
+            foreach (var key in taskDictionary.Keys)
             {
-                if (utterance.Contains(keyValPair.Key))
+                if (utterance.Contains(key, StringComparison.OrdinalIgnoreCase))
                 {
-                    task = keyValPair.Value;
+                    task = taskDictionary[key];
                     break;
                 }
             }
             _logger.LogInformation("SuggestTask decision: UserId={UserId}, SessionId={SessionId}, Task={Task}",
                 model.userId, model.sessionId, task);
 
-            return Ok(new { task = task, timestamp = DateTime.UtcNow });
+            return Ok(new { task, timestamp = DateTime.UtcNow });
         }
     }
 }
