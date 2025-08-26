@@ -13,12 +13,18 @@ namespace NiCE_Home_Assignment.API.Controllers
         private IValidator<UserDetails> _validator;
         private ILogger<SuggestTaskController> _logger;
         private ExternalTaskService _externalService;
+        private MatchUtteranceService _utteranceMatcher;
 
-        public SuggestTaskController(IValidator<UserDetails> validator, ILogger<SuggestTaskController> logger, ExternalTaskService externalService)
+        public SuggestTaskController(
+            IValidator<UserDetails> validator, 
+           ILogger<SuggestTaskController> logger,
+           ExternalTaskService externalService,
+           MatchUtteranceService utteranceMatcher)
         {
             _validator = validator;
             _logger = logger;
             _externalService = externalService;
+            _utteranceMatcher = utteranceMatcher;
         }
 
         [HttpPost]
@@ -41,7 +47,8 @@ namespace NiCE_Home_Assignment.API.Controllers
             string task = "NoTaskFound"; // Default task, changes if task found.
             foreach (var key in taskDictionary.Keys)
             {
-                if (utterance.Contains(key, StringComparison.OrdinalIgnoreCase))
+                bool isContained = _utteranceMatcher.IsMatching(utterance, key);
+                if (isContained)
                 {
                     task = taskDictionary[key];
                     break;
