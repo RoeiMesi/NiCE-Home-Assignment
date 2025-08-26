@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NiCE_Home_Assignment.Models.Domain;
+using NiCE_Home_Assignment.Services;
 
 namespace NiCE_Home_Assignment.API.Controllers
 {
@@ -11,11 +12,13 @@ namespace NiCE_Home_Assignment.API.Controllers
     {
         private IValidator<UserDetails> _validator;
         private ILogger<SuggestTaskController> _logger;
+        private ExternalTaskService _externalService;
 
-        public SuggestTaskController(IValidator<UserDetails> validator, ILogger<SuggestTaskController> logger)
+        public SuggestTaskController(IValidator<UserDetails> validator, ILogger<SuggestTaskController> logger, ExternalTaskService externalService)
         {
             _validator = validator;
             _logger = logger;
+            _externalService = externalService;
         }
 
         [HttpPost]
@@ -46,6 +49,13 @@ namespace NiCE_Home_Assignment.API.Controllers
             }
             _logger.LogInformation("SuggestTask decision: UserId={UserId}, SessionId={SessionId}, Task={Task}",
                 model.userId, model.sessionId, task);
+
+            string externalTaskVal = _externalService.GetTaskFromExternalSystem(utterance);
+            if (externalTaskVal == "Failed to get task from external dependency")
+            {
+                return BadRequest(externalTaskVal);
+            }
+
 
             return Ok(new { task, timestamp = DateTime.UtcNow });
         }
