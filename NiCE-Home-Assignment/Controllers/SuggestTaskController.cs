@@ -63,7 +63,6 @@ namespace NiCE_Home_Assignment.API.Controllers
                 return BadRequest(externalTaskVal);
             }
 
-
             return Ok(new { task, timestamp = DateTime.UtcNow });
         }
     }

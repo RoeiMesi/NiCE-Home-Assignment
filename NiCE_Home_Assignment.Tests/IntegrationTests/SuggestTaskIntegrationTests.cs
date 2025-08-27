@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NiCE_Home_Assignment;
+using Microsoft.Extensions.Logging;
 
 namespace NiCE_Home_Assignment.Tests.IntegrationTests
 {

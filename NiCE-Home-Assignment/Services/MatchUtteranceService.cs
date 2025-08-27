@@ -4,24 +4,22 @@ namespace NiCE_Home_Assignment.Services
 {
     public class MatchUtteranceService
     {
-        static HashSet<string> BuildWordSet(string taskKey)
+        static HashSet<string> BuildWordSet(string text)
         {
-            var hashSet = new HashSet<string>(taskKey.ToLowerInvariant()
-                .Split((char[])null, StringSplitOptions.RemoveEmptyEntries),
-                StringComparer.OrdinalIgnoreCase);
-            return hashSet;
+            var tokens = text.ToLowerInvariant().Select(ch => char.IsLetterOrDigit(ch) ? ch : ' ').ToArray();
+            return new string(tokens).Split(' ', StringSplitOptions.RemoveEmptyEntries).ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
 
         public bool IsMatching(string utterance, string taskKey)
         {
             // Build a dictionary of words from the taskKey
-            var taskWords = BuildWordSet(taskKey);
+            var taskKeyWords = BuildWordSet(taskKey);
 
-            // Split the utterance into words
+            // Build a dictionary of words from the utterance
             var utteranceWords = BuildWordSet(utterance);
 
             // Check if all words in the taskKey are present in the utterance
-            foreach (var word in taskWords)
+            foreach (var word in taskKeyWords)
             {
                 if (!utteranceWords.Contains(word))
                 {
