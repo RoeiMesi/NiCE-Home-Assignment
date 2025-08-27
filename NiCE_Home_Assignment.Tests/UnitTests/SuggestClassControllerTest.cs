@@ -7,6 +7,7 @@ using NiCE_Home_Assignment.API.Controllers;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 using Microsoft.AspNetCore.Mvc;
+using NiCE_Home_Assignment.Services;
 
 
 namespace NiCE_Home_Assignment.Tests.UnitTests
@@ -19,7 +20,12 @@ namespace NiCE_Home_Assignment.Tests.UnitTests
             IValidator<UserDetails> validator = new UserDetailsValidator();
             var logger = NullLogger<SuggestTaskController>.Instance;
 
-            var controller = new SuggestTaskController(validator, logger);
+            var externalLogger = NullLogger<ExternalTaskService>.Instance;
+            var externalService = new ExternalTaskService(externalLogger);
+
+            var utteranceMatcher = new MatchUtteranceService();
+
+            var controller = new SuggestTaskController(validator, logger, externalService, utteranceMatcher);
 
             var taskDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {

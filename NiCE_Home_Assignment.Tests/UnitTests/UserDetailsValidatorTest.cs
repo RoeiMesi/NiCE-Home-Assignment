@@ -13,7 +13,6 @@ namespace NiCE_Home_Assignment.Tests.UnitTests
         [Fact]
         public void Valid_Payload_Passes()
         {
-                // Arrange
                 var now = DateTime.UtcNow;
                 var model = new UserDetails
                 {
@@ -23,12 +22,9 @@ namespace NiCE_Home_Assignment.Tests.UnitTests
                     timestamp = now
                 };
 
-                // Act
                 var result = _validator.TestValidate(model);
 
-                // Assert
                 result.ShouldNotHaveAnyValidationErrors();
-
         }
 
         [Fact]
